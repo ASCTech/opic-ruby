@@ -6,10 +6,10 @@ Gem::Specification.new do |spec|
   spec.name          = "opic"
   spec.version       = "0.0.1"
   spec.authors       = ["Kyle Decot"]
-  spec.email         = ["kyle.decot@me.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.email         = ["decot.7@osu.edu"]
+  spec.description   = %q{Rubygem for interacting w/ the Opic API}
+  spec.summary       = %q{Rubygem for interacting w/ the Opic API}
+  spec.homepage      = "http://opic.osu.edu/"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
