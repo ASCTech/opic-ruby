@@ -1,16 +1,46 @@
-require "opic/version"
-require "pry"
+require 'singleton'
+require "rest_client"
 
-module Opic
-  ENDPOINT = "https://opic.osu.edu/"
+class Opic
+  include Singleton
 
-  def self.get(name_n, options = {})
-    defaults = { width: 100, aspect: 's' }
-    options = defaults.merge(options)
-    "#{ENDPOINT}#{name_n}?width=#{options[:width]}&aspect=#{options[:aspect]}"
+  class << self
+    def api_key
+      @api_key ||= nil
+    end
+
+    def api_key=(api_key)
+      @api_key = api_key
+    end
+
+    def endpoint
+      @endpoint ||= "https://opic.osu.edu/"
+    end
+
+    def endpoint=(endpoint)
+      @endpoint = endpoint
+    end
+
+    def get(name_n, options = {})
+      defaults = { width: 100, aspect: 's' }
+      options = defaults.merge(options)
+      "#{@endpoint}#{name_n}?width=#{options[:width]}&aspect=#{options[:aspect]}"
+    end
+
+    def post(name_n, path)
+      begin
+        raise "API Key not set!" if @api_key.nil?
+
+        headers = { "X-API-Key" => @api_key }
+        data = { avatar: File.new(path), name_n: name_n }
+
+        r = RestClient.post("#{@endpoint}/api/avatars", data, headers)
+        return false unless r.code == 201
+      rescue => e
+        return false
+      end
+      return true
+    end
   end
 
-  def self.post(name_n, &block)
-    # TODO...
-  end
 end
