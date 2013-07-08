@@ -27,6 +27,9 @@ class Opic
       "#{@endpoint}#{name_n}?width=#{options[:width]}&aspect=#{options[:aspect]}"
     end
 
+    # TODO: I don't like the fact that we're using rest_client here...I would
+    # rather use net/http because it's part of the ruby stdlib
+
     def post(name_n, path)
       begin
         raise "API Key not set!" if @api_key.nil?
