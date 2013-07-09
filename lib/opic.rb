@@ -6,7 +6,7 @@ class Opic
   include Singleton
   @endpoint = "https://opic.osu.edu/"
   singleton_class.class_eval do
-    attr_accessor :api_key, :endpoint
+    attr_accessor :api_key, :endpoint, :error
   end
 
   class << self
@@ -33,6 +33,7 @@ class Opic
         r = RestClient.post("#{@endpoint}api/avatars", data, headers)
         return false unless r.code == 201
       rescue => e
+        @error = e
         return false
       end
       return true
