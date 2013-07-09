@@ -18,7 +18,13 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    # Getting an existing opic
+    Opic.get 'decot.7', width: 200 # "https://opic.osu.edu/decot.7?width=200&aspect=s"
+
+    # Uploading a new opic
+    file = File.new(some_kind_of_path)
+    Opic.post('decot.7', file) # true
+
 
 ## Contributing
 
