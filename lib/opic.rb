@@ -1,25 +1,15 @@
 require 'singleton'
 require "rest_client"
+require 'pry'
 
 class Opic
   include Singleton
+  @endpoint = "https://opic.osu.edu/"
+  singleton_class.class_eval do
+    attr_accessor :api_key, :endpoint
+  end
 
   class << self
-    def api_key
-      @api_key ||= nil
-    end
-
-    def api_key=(api_key)
-      @api_key = api_key
-    end
-
-    def endpoint
-      @endpoint ||= "https://opic.osu.edu/"
-    end
-
-    def endpoint=(endpoint)
-      @endpoint = endpoint
-    end
 
     def get(name_n, options = {})
       defaults = { width: 100, aspect: 's' }
@@ -30,14 +20,17 @@ class Opic
     # TODO: I don't like the fact that we're using rest_client here...I would
     # rather use net/http because it's part of the ruby stdlib
 
-    def post(name_n, path)
+    def post(name_n, file)
       begin
         raise "API Key not set!" if @api_key.nil?
 
-        headers = { "X-API-Key" => @api_key }
-        data = { avatar: File.new(path), name_n: name_n }
+        # If we were passed only a path then make a File
+        file = File.new(file) unless file.is_a? File
 
-        r = RestClient.post("#{@endpoint}/api/avatars", data, headers)
+        headers = { "X-API-Key" => @api_key }
+        data = { avatar: file, name_n: name_n }
+
+        r = RestClient.post("#{@endpoint}api/avatars", data, headers)
         return false unless r.code == 201
       rescue => e
         return false
