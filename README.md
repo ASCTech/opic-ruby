@@ -18,10 +18,12 @@ Or install it yourself as:
 
 ## Usage
 
+
     # Getting an existing opic
     Opic.get 'decot.7', width: 200 # "https://opic.osu.edu/decot.7?width=200&aspect=s"
 
     # Uploading a new opic
+    Opic.api_key = "xxxx"
     file = File.new(some_kind_of_path)
     Opic.post('decot.7', file) # true
 
