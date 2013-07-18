@@ -1,6 +1,5 @@
 require 'singleton'
 require "rest_client"
-require 'pry'
 
 class Opic
   include Singleton
